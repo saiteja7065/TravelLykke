@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block title %}Travel Options{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card shadow-lg border-0" style="background: #fff;">
+            <div class="card-body p-5">
+                <h2 class="mb-4 text-center" style="color: #2575fc; font-weight: 700;">Available Travel Options</h2>
+                                <form method="get" class="row g-3 mb-4">
+                                    <div class="col-md-3">
+                                        <input type="text" name="source" class="form-control" placeholder="Source" value="{{ source }}">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input type="text" name="destination" class="form-control" placeholder="Destination" value="{{ destination }}">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input type="date" name="date_time" class="form-control" value="{{ date_time }}">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button type="submit" class="btn btn-primary w-100">Search</button>
+                                    </div>
+                                </form>
+                                <table class="table table-bordered table-hover align-middle" style="background: #f9f9f9;">
+                    <thead style="background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%); color: #fff;">
+                        <tr>
+                            <th>Type</th>
+                            <th>Source</th>
+                            <th>Destination</th>
+                            <th>Date & Time</th>
+                            <th>Price</th>
+                            <th>Available Seats</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for option in options %}
+                        <tr>
+                            <td>{{ option.type }}</td>
+                            <td>{{ option.source }}</td>
+                            <td>{{ option.destination }}</td>
+                            <td>{{ option.date_time }}</td>
+                            <td>{{ option.price }}</td>
+                            <td>{{ option.available_seats }}</td>
+                            {% if user.is_authenticated and not user.is_staff %}
+                            <td>
+                                <a href="{% url 'book_travel' option.travel_id %}" class="btn btn-success btn-sm">Book</a>
+                            </td>
+                            {% endif %}
+                        </tr>
+                        {% empty %}
+                        <tr><td colspan="6">No travel options available.</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

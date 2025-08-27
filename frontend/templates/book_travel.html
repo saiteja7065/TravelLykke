@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}Book Travel{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-lg border-0" style="background: #fff;">
+            <div class="card-body p-5">
+                <h2 class="mb-4 text-center" style="color: #2575fc; font-weight: 700;">Book Travel Option</h2>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label">Type</label>
+                        <input type="text" class="form-control" value="{{ travel_option.type }}" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Source</label>
+                        <input type="text" class="form-control" value="{{ travel_option.source }}" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Destination</label>
+                        <input type="text" class="form-control" value="{{ travel_option.destination }}" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Date & Time</label>
+                        <input type="text" class="form-control" value="{{ travel_option.date_time }}" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Price per seat</label>
+                        <input type="text" class="form-control" value="{{ travel_option.price }}" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Available Seats</label>
+                        <input type="text" class="form-control" value="{{ travel_option.available_seats }}" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Number of Seats</label>
+                        <input type="number" name="seats" class="form-control" min="1" max="{{ travel_option.available_seats }}" value="1" required>
+                    </div>
+                    <button type="submit" class="btn w-100" style="background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%); color: #fff; font-weight: 600;">Book Now</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

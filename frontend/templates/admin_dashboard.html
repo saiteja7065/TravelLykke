@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block content %}
+<div class="row justify-content-center align-items-center" style="height: 60vh;">
+    <div class="col-md-8 text-center">
+        <div class="card shadow-lg border-0 p-5" style="background: #fff;">
+            <h2 class="mb-4" style="color: #2575fc; font-weight: 700;">Admin Dashboard</h2>
+            <div class="d-grid gap-3">
+                <a href="/add-travel-option/" class="btn btn-lg" style="background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%); color: #fff; font-weight: 600;">Add Travel Option</a>
+                <a href="/travel-options/" class="btn btn-lg" style="background: linear-gradient(90deg, #2575fc 0%, #6a11cb 100%); color: #fff; font-weight: 600;">View Travel Options</a>
+                <a href="/logout/" class="btn btn-lg btn-outline-danger">Logout</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

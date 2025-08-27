@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %}Add Travel Option{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-lg border-0" style="background: #fff;">
+            <div class="card-body p-5">
+                <h2 class="mb-4 text-center" style="color: #2575fc; font-weight: 700;">Add Travel Option</h2>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label">Type</label>
+                        <select name="type" class="form-select" required>
+                            <option value="">Select Type</option>
+                            <option value="Flight">Flight</option>
+                            <option value="Train">Train</option>
+                            <option value="Bus">Bus</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Source</label>
+                        <input type="text" name="source" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Destination</label>
+                        <input type="text" name="destination" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Date & Time</label>
+                        <input type="datetime-local" name="date_time" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Price</label>
+                        <input type="number" name="price" class="form-control" min="0" step="0.01" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Available Seats</label>
+                        <input type="number" name="available_seats" class="form-control" min="1" required>
+                    </div>
+                    <button type="submit" class="btn w-100" style="background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%); color: #fff; font-weight: 600;">Add Option</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

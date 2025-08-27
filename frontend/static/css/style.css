@@ -1,0 +1,19 @@
+body {
+    background: linear-gradient(120deg, #f3f3f3 0%, #e3e6f3 100%);
+}
+.card {
+    border-radius: 1rem;
+    box-shadow: 0 4px 24px rgba(106,17,203,0.08);
+    border: none;
+}
+.btn {
+    border-radius: 0.5rem;
+    font-size: 1.1rem;
+}
+.table th, .table td {
+    vertical-align: middle;
+    font-size: 1rem;
+}
+.table th {
+    font-weight: 600;
+}

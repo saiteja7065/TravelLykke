@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Home | TravelLykke{% endblock %}
+{% block content %}
+<div class="row justify-content-center align-items-center" style="height: 60vh;">
+    <div class="col-md-6 text-center">
+        <div class="card shadow-lg border-0 p-5" style="background: #fff;">
+            <h2 class="mb-4" style="color: #2575fc; font-weight: 700;">Welcome to TravelLykke</h2>
+            {% if not user.is_authenticated %}
+                <p class="mb-4">Choose your role to continue:</p>
+                <div class="d-grid gap-3">
+                    <a href="/login/" class="btn btn-lg" style="background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%); color: #fff; font-weight: 600;">User Login</a>
+                    <a href="/admin/login/" class="btn btn-lg" style="background: linear-gradient(90deg, #2575fc 0%, #6a11cb 100%); color: #fff; font-weight: 600;">Admin Login</a>
+                    <a href="/register/" class="btn btn-outline-primary btn-lg" style="font-weight: 600;">User Registration</a>
+                </div>
+            {% else %}
+                <h4 class="mb-4" style="color: #2575fc; font-weight: 600;">Welcome back, {{ user.username }}!</h4>
+                <a href="/travel-options/" class="btn btn-primary btn-lg" style="font-weight: 600;">View Travel Options</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
