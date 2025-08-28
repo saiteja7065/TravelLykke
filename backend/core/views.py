@@ -4,10 +4,11 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
+from django.http import HttpRequest, HttpResponse
 from .models import Booking, TravelOption, UserProfile
 
 
-def register(request):
+def register(request: HttpRequest) -> HttpResponse:
 	if request.method == 'POST':
 		form = UserCreationForm(request.POST)
 		if form.is_valid():
@@ -23,11 +24,11 @@ def register(request):
 		form = UserCreationForm()
 	return render(request, 'register.html', {'form': form})
 
-def home(request):
+def home(request: HttpRequest) -> HttpResponse:
 	return render(request, 'home.html')
 
 @login_required
-def book_travel(request, travel_id):
+def book_travel(request: HttpRequest, travel_id: int) -> HttpResponse:
 	travel_option = get_object_or_404(TravelOption, travel_id=travel_id)
 	if request.method == 'POST':
 		seats_str = request.POST.get('seats', '1')
@@ -40,7 +41,7 @@ def book_travel(request, travel_id):
 			messages.error(request, 'Invalid number of seats selected.')
 		else:
 			total_price = travel_option.price * seats
-			booking = Booking.objects.create(
+			Booking.objects.create(
 				user=request.user,
 				travel_option=travel_option,
 				number_of_seats=seats,
@@ -54,8 +55,8 @@ def book_travel(request, travel_id):
 	return render(request, 'book_travel.html', {'travel_option': travel_option})
 
 @login_required
-def profile(request):
-	user_profile, created = UserProfile.objects.get_or_create(user=request.user)
+def profile(request: HttpRequest) -> HttpResponse:
+	user_profile, _ = UserProfile.objects.get_or_create(user=request.user)
 	if request.method == 'POST':
 		full_name = request.POST.get('full_name', '').strip()
 		email = request.POST.get('email', '').strip()
@@ -81,31 +82,32 @@ def profile(request):
 
 
 @login_required
-def cancel_booking(request, booking_id):
+def cancel_booking(request: HttpRequest, booking_id: int) -> HttpResponse:
 	booking = get_object_or_404(Booking, booking_id=booking_id, user=request.user)
 	if request.method == 'POST':
 		booking.delete()
 		messages.success(request, 'Booking cancelled successfully!')
 		return redirect('my_bookings')
 	return render(request, 'cancel_booking.html', {'booking': booking})
+
 @staff_member_required
-def admin_dashboard(request):
+def admin_dashboard(request: HttpRequest) -> HttpResponse:
 	return render(request, 'admin_dashboard.html')
 
 @staff_member_required
-def add_travel_option(request):
+def add_travel_option(request: HttpRequest) -> HttpResponse:
 	if request.method == 'POST':
-		type = request.POST.get('type')
+		travel_type = request.POST.get('type')
 		source = request.POST.get('source')
 		destination = request.POST.get('destination')
 		date_time = request.POST.get('date_time')
 		price = request.POST.get('price')
 		available_seats = request.POST.get('available_seats')
-		if not all([type, source, destination, date_time, price, available_seats]):
+		if not all([travel_type, source, destination, date_time, price, available_seats]):
 			messages.error(request, 'All fields are required.')
 		else:
 			TravelOption.objects.create(
-				type=type,
+				type=travel_type,
 				source=source,
 				destination=destination,
 				date_time=date_time,
@@ -116,7 +118,7 @@ def add_travel_option(request):
 			return redirect('travel_options')
 	return render(request, 'add_travel_option.html')
 
-def login_view(request):
+def login_view(request: HttpRequest) -> HttpResponse:
 	if request.method == 'POST':
 		form = AuthenticationForm(request, data=request.POST)
 		if form.is_valid():
@@ -129,11 +131,11 @@ def login_view(request):
 		form = AuthenticationForm()
 	return render(request, 'login.html', {'form': form})
 
-def logout_view(request):
+def logout_view(request: HttpRequest) -> HttpResponse:
 	logout(request)
 	return redirect('/')
 
-def travel_options(request):
+def travel_options(request: HttpRequest) -> HttpResponse:
 	source = request.GET.get('source', '')
 	destination = request.GET.get('destination', '')
 	date_time = request.GET.get('date_time', '')
@@ -152,6 +154,6 @@ def travel_options(request):
 	})
 
 @login_required
-def my_bookings(request):
+def my_bookings(request: HttpRequest) -> HttpResponse:
 	bookings = Booking.objects.filter(user=request.user).order_by('-booking_id')
 	return render(request, 'my_bookings.html', {'bookings': bookings})
